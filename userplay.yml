@@ -1,0 +1,24 @@
+- name: Create user on server1
+  hosts: server1
+  become: yes
+
+  tasks:
+    - name: Create sidhhhh
+      ansible.builtin.user:
+        name: sidhhhh
+        state: present
+        shell: /bin/bash
+        create_home: yes
+
+
+- name: Create user on server2
+  hosts: server2
+  become: yes
+
+  tasks:
+    - name: Create jackkyyy
+      ansible.builtin.user:
+        name: jackkyyy
+        state: present
+        shell: /bin/bash
+        create_home: yes

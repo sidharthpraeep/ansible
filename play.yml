@@ -1,0 +1,41 @@
+- name: installation of nginx
+  hosts: server1
+  become: yes
+
+  tasks:
+    - name: nginx installation
+      dnf:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    
+    - name: start and enable service 
+      ansible.builtin.systemd:
+        name: nginx
+        state: started
+        enabled: yes
+
+
+    - name: copy document root/templates
+      ansible.builtin.copy: 
+        src: /home/devops/ansible/goldd/
+        dest: /var/www/html/
+        owner: nginx
+        group: nginx
+        mode: '0644'
+    
+    - name: copy config files
+      ansible.builtin.copy:
+        src: /home/devops/ansible/nginx.conf
+        dest: /etc/nginx/conf.d/nginx.conf
+      notify: restarted
+
+  handlers:
+    - name: restarted
+      systemd:
+        name: nginx
+        state: restarted
+
+  
+        
